@@ -9,6 +9,7 @@ import { bodyMethods, IMethods } from "../../interface/api_interface";
 import { IUser } from "../../interface/user_interface";
 import { createToken } from "../../controller/jwt_token";
 import { IMail, sendMail } from "../../controller/controller_mail";
+import { createFolder } from "../../controller/controller_fs";
 
 export default function createUser(req: NextApiRequest, res: NextApiResponse) {
   const Case: IMethods = {
@@ -24,32 +25,42 @@ export default function createUser(req: NextApiRequest, res: NextApiResponse) {
           });
 
         const new_user = new USER(user);
+        new_user.created = new Date();
 
+        // Find User By Username and Email
         const find = await USER.findOne({
           $or: [{ username: user.username }, { email: user.email }],
         });
 
+        //Check the find
         if (find)
           return res.status(200).json({
             msg: "User or Email Exist",
           });
 
-        new_user.save();
+        //Create Folder Users
+        await createFolder(new_user.username);
 
-        const token = await createToken(new_user._id);
+        //Save the user
+        const save = await new_user.save();
 
-        const mail: IMail = {
-          fromMail: "jonathanjgn99@gmail.com",
-          toMail: new_user.email,
-          subject: `${new_user.username}`,
-          message: `Welcome: ${new_user.username}`,
-        };
+        //Send the email and create the token
+        if (save) {
+          const token = await createToken(new_user._id);
 
-        sendMail(mail);
+          const mail: IMail = {
+            fromMail: "jonathanjgn99@gmail.com",
+            toMail: new_user.email,
+            subject: `${new_user.username}`,
+            message: `Welcome: ${new_user.username}`,
+          };
 
-        return res.status(200).json({ msg: "User Created", token: token });
+          sendMail(mail);
+
+          return res.status(200).json({ msg: "User Created", token: token });
+        }
       } catch (error) {
-        res.status(400).json({ msg: "Error in Network!!" + error });
+        res.status(500).json({ msg: "Error in Network!!" + error });
       }
     },
   };

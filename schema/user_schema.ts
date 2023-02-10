@@ -9,8 +9,16 @@ const user = new Schema<IUser>({
   created: { type: Date, required: true },
 });
 
+user.set("toJSON", {
+  transform: (document, returned) => {
+    returned.id = returned._id;
+    delete returned._id;
+    delete returned.__v;
+    delete returned.password;
+  },
+});
+
 user.pre("save", async function () {
-  this.created = new Date();
   this.password = await hashPassword(this.password);
 });
 
@@ -18,9 +26,12 @@ const hashPassword = async (password: string): Promise<string> => {
   return await bcrypt.hash(password, 10);
 };
 
-// const USER: Model<IUser> = mongoose.models.user
-//   ? mongoose.model("User", user)
-//   : mongoose.models.user;
+export const verifyHashPassword = async (
+  password: string,
+  passwordHash: string
+): Promise<boolean> => {
+  return await bcrypt.compare(password, passwordHash);
+};
 
 const USER = mongoose.model("User", user);
 
