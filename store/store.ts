@@ -6,10 +6,7 @@ export interface AccountStore {
   getToken: () => void;
   createToken: (tok: string) => void;
 }
-const getInitialLoggedIn = (): string | undefined => {
-  const loggedIn = localStorage.getItem("login") || undefined;
-  return loggedIn;
-};
+
 export const useAccountStore = create<AccountStore>()(
   persist(
     (set, get) => ({
@@ -17,8 +14,10 @@ export const useAccountStore = create<AccountStore>()(
       getToken: () => set({ token: get().token }),
       createToken: (tok) => set({ token: tok }),
     }),
+
     {
-      name: "login",
+      name: "token",
+
       storage: createJSONStorage(() => sessionStorage),
     }
   )

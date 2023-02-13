@@ -7,6 +7,12 @@ export interface IMethods {
   DELETE?: Function;
 }
 
+export interface ResponseApi {
+  msg: string;
+  token?: string | undefined;
+  error?: string | undefined;
+}
+
 export const bodyMethods = (
   req: NextApiRequest,
   res: NextApiResponse,

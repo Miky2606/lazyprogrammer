@@ -26,8 +26,7 @@ export const sendMail = (mail: IMail) => {
     from: mail.fromMail,
     to: mail.toMail,
     subject: mail.subject,
-
-    amp: emailBody(mail.message),
+    html: emailBody(mail.message),
   };
   transporter.sendMail(options, (error) => {
     if (error) return error;

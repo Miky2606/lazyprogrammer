@@ -26,6 +26,7 @@ export default function createUser(req: NextApiRequest, res: NextApiResponse) {
 
         const new_user = new USER(user);
         new_user.created = new Date();
+        new_user.count_password_incorrect = 0;
 
         // Find User By Username and Email
         const find = await USER.findOne({

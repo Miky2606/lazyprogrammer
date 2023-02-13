@@ -1,3 +1,4 @@
+import { RequestContext } from "next/dist/server/base-server";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { shallow } from "zustand/shallow";
@@ -23,7 +24,7 @@ const items_nav: IItemsNav[] = [
 ];
 
 export const Navbar = (): JSX.Element => {
-  const { token, createToken } = useAccountStore(
+  const { token } = useAccountStore(
     (state) => ({ token: state.token, createToken: state.createToken }),
     shallow
   );
@@ -57,3 +58,11 @@ const ItemsNav = ({ text, url, id }: IItemsNav): JSX.Element => {
     </li>
   );
 };
+
+export async function getServerSideProps(context: RequestContext) {
+  console.log(context.req.cookies);
+
+  return {
+    props: {}, // will be passed to the page component as props
+  };
+}
