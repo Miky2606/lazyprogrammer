@@ -1,8 +1,6 @@
 // middleware.ts
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { useAccountStore } from "./store/store";
-import { shallow } from "zustand/shallow";
+import { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
   const cookies_token = request.cookies.get("token");
@@ -14,5 +12,5 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  NextResponse.next();
+  return NextResponse.next();
 }

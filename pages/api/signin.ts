@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { verifyUser } from "../../controller/controller_login";
 import connect_db from "../../db/connect_db";
 import USER from "../../schema/user_schema";
-
+import cookie from "cookie";
 import { bodyMethods, IMethods } from "../../interface/api_interface";
 import { IUser } from "../../interface/user_interface";
 import { createToken } from "../../controller/jwt_token";
@@ -57,6 +57,17 @@ export default function createUser(req: NextApiRequest, res: NextApiResponse) {
           };
 
           sendMail(mail);
+
+          res.setHeader(
+            "Set-Cookie",
+            cookie.serialize("token", token, {
+              httpOnly: true,
+              secure: true,
+              sameSite: "strict",
+              maxAge: 3600,
+              path: "/",
+            })
+          );
 
           return res.status(200).json({ msg: "User Created", token: token });
         }

@@ -22,7 +22,3 @@ export const loginUser = async (
     }
   }
 };
-
-export function isApiResponse(obj: any): obj is ResponseApi {
-  return "email" in obj;
-}

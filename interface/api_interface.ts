@@ -25,3 +25,7 @@ export const bodyMethods = (
   if (response) return response(req, res);
   else return res.status(400).json({ error: "Not Found" });
 };
+
+export interface IJwt {
+  id: string;
+}

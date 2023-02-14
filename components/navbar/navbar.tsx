@@ -58,11 +58,3 @@ const ItemsNav = ({ text, url, id }: IItemsNav): JSX.Element => {
     </li>
   );
 };
-
-export async function getServerSideProps(context: RequestContext) {
-  console.log(context.req.cookies);
-
-  return {
-    props: {}, // will be passed to the page component as props
-  };
-}
