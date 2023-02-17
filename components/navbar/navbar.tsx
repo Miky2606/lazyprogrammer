@@ -1,8 +1,7 @@
-import { RequestContext } from "next/dist/server/base-server";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { shallow } from "zustand/shallow";
-import { useAccountStore } from "../../store/store";
+
+import { signIn, signOut, useSession } from "next-auth/react";
+import { IUser } from "../../interface/user_interface";
 
 interface IItemsNav {
   id: string;
@@ -10,29 +9,22 @@ interface IItemsNav {
   url: string;
 }
 
-const items_nav: IItemsNav[] = [
-  {
-    id: "1",
-    text: "Login",
-    url: "/login",
-  },
-  {
-    id: "2",
-    text: "Sign Up",
-    url: "/login",
-  },
-];
+// const items_nav: IItemsNav[] = [
+//   {
+//     id: "1",
+//     text: "Login",
+//     url: "/login",
+//   },
+//   {
+//     id: "2",
+//     text: "Sign Up",
+//     onClick: signIn(),
+//   },
+// ];
 
 export const Navbar = (): JSX.Element => {
-  const { token } = useAccountStore(
-    (state) => ({ token: state.token, createToken: state.createToken }),
-    shallow
-  );
-  const [token_get, setToken] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    setToken(token === "" ? undefined : token);
-  }, [token]);
+  const { data: session } = useSession();
+  const user: IUser = session as IUser;
 
   return (
     <nav className="sticky top-0 w-full   bg-cover  ">
@@ -40,10 +32,33 @@ export const Navbar = (): JSX.Element => {
         <div className="flex gap-4">logo</div>
 
         <ul className="flex gap-3">
-          {token_get !== undefined ? (
-            <ItemsNav key={"3"} text="Account" url={`/${token_get}`} id="3" />
+          {session ? (
+            <>
+              {/* <ItemsNav
+                key={"3"}
+                text={user.username!}
+                id="3"
+                url={`/${user!.username?.toLowerCase()}`}
+              /> */}
+
+              <li
+                className="bg-slate-700 px-2 py-1 text-center rounded-full text-white text-sm  lg:text-xs capitalize cursor-pointer"
+                key={"account"}
+              >
+                <Link href={`/${user!.name}`}>{user.name}</Link>
+              </li>
+
+              <li
+                className="bg-slate-700 px-2 py-1 text-center rounded-full text-white text-sm  lg:text-xs capitalize cursor-pointer"
+                key={"signout"}
+              >
+                <button onClick={() => signOut()}>SignOut</button>
+              </li>
+            </>
           ) : (
-            items_nav.map((e) => <ItemsNav key={e.id} {...e} />)
+            <li className="bg-slate-700 px-2 py-1 text-center rounded-full text-white text-sm  lg:text-xs capitalize cursor-pointer">
+              <button onClick={() => signIn()}>SignIn</button>
+            </li>
           )}
         </ul>
       </div>
@@ -58,11 +73,3 @@ const ItemsNav = ({ text, url, id }: IItemsNav): JSX.Element => {
     </li>
   );
 };
-
-export async function getServerSideProps(context: RequestContext) {
-  console.log(context.req.cookies);
-
-  return {
-    props: {}, // will be passed to the page component as props
-  };
-}

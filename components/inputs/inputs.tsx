@@ -1,13 +1,14 @@
 import {
   ChangeEvent,
-  ChangeEventHandler,
   forwardRef,
   HTMLInputTypeAttribute,
   LegacyRef,
   useState,
 } from "react";
-import { BsSearch, BsSkipForwardCircleFill } from "react-icons/bs";
+import { BsSearch, BsUnlockFill } from "react-icons/bs";
 import { IconType } from "react-icons/lib";
+import { Code } from "../code";
+import { BsLockFill } from "react-icons/bs";
 
 export interface ICustomsInput {
   Icon: IconType;
@@ -15,6 +16,7 @@ export interface ICustomsInput {
   placeholder?: string;
   type: HTMLInputTypeAttribute;
   ref?: LegacyRef<HTMLInputElement>;
+  value?: string;
   onClick?: () => void;
 }
 
@@ -35,54 +37,42 @@ export const InputSearch = (): JSX.Element => {
 };
 
 export const UploadInput = (): JSX.Element => {
+  const [show, setShow] = useState<HTMLInputTypeAttribute>("password");
   return (
-    <div className="flex items-center justify-center w-full">
-      <label
-        htmlFor="dropzone-file"
-        className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-      >
-        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-          <svg
-            aria-hidden="true"
-            className="w-10 h-10 mb-3 text-gray-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-            ></path>
-          </svg>
-          <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-            <span className="font-semibold">Click to upload</span> or drag and
-            drop
-          </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            Upload Your Theme
-          </p>
-        </div>
-        <input id="dropzone-file" type="file" className="hidden" />
-      </label>
+    <div className="flex flex-col items-center justify-center w-full">
+      <article className="w-1/2 justify-center items-center flex flex-col gap-6 py-2">
+        <p>
+          For Upload templates you only need write this code in the terminal on
+          the template folder:
+        </p>
+        <Code text="tempjs --sign <your sign code>" />
+
+        <span className="space-x-3 w-full flex  justify-center items-center">
+          <h5 className="text-gray-600 hover:text-gray-200">Sign Code</h5>
+          <CustomsInput
+            Icon={show === "password" ? BsLockFill : BsUnlockFill}
+            type={show}
+            value="saghjasghjgdhjfas"
+            onClick={() => setShow(show === "password" ? "text" : "password")}
+          />
+        </span>
+      </article>
     </div>
   );
 };
 
 export const CustomsInput = forwardRef(
   (
-    { Icon, type, required, placeholder, onClick }: ICustomsInput,
+    { Icon, type, required, placeholder, onClick, value }: ICustomsInput,
     ref: LegacyRef<HTMLInputElement>
   ): JSX.Element => {
-    const [value, setValue] = useState<string>("");
+    // const [value, setValue] = useState<string>("");
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
       e.preventDefault();
-      setValue(e.target.value);
+      // setValue(e.target.value);
     };
     return (
-      <div className=" w-full lg:w-1/2  flex justify-start gap-2 px-2 py-2 items-center rounded-full border-[0.5px] border-gray-500 border-solid   ">
+      <div className=" w-full lg:w-1/2  flex justify-start gap-2 px-3 py-2 items-center rounded-full border-[0.5px] border-gray-500 border-solid   ">
         <span className="h-full   border-r-[0.5px] border-gray-700  p-1">
           <Icon onClick={onClick} />
         </span>

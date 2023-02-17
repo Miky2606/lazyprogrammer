@@ -32,7 +32,7 @@ export const Code = ({ text }: { text: string }): JSX.Element => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        npx tempjs {text}
+        {text}
       </code>
       <div
         ref={tipRef}

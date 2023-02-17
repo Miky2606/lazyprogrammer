@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AiOutlineStar,
   AiFillStar,
@@ -12,16 +12,28 @@ import { ITemplate, template_fake } from "./interface";
 import { Readme } from "../readme";
 import Link from "next/link";
 import { ButtonBasic } from "../buttons";
+import axios from "axios";
 
 export const TemplatesDetails = (): JSX.Element => {
   const router = useRouter();
   const { id } = router.query;
+  const [template, setTemplate] = useState<ITemplate | undefined>();
 
-  const getTemplate = (): ITemplate | undefined => {
-    return template_fake.find((e) => e.id === id);
+  const getTemplate = async () => {
+    const response = await axios.get<{ data: ITemplate[] }>(
+      `${process.env.API_URL}/${id}`
+    );
+
+    if (!response) return setTemplate(undefined);
+
+    return setTemplate(response.data.data[0]);
   };
 
-  if (getTemplate() === undefined)
+  useEffect(() => {
+    getTemplate();
+  }, []);
+
+  if (template === undefined)
     return (
       <div className="text-white">
         <NotFound />
@@ -30,13 +42,10 @@ export const TemplatesDetails = (): JSX.Element => {
 
   return (
     <div className="w-full flex flex-col gap-3 justify-center items-center text-white mt-10 p-2">
-      <CustomText text={getTemplate()!.name} />
-      <Code text={getTemplate()?.code as string} />
-      <Info info={getTemplate()!} />
-      <SubInfo info={getTemplate()!} />
-      <div className="w-1/2 mt-5 text-center text-sm">
-        {getTemplate()?.description}
-      </div>
+      <CustomText text={template!.name} />
+      <Code text={`temp ${template?.name as string}`} />
+      <Info info={template!} />
+      <SubInfo info={template!} />
 
       <Readme />
     </div>
@@ -47,20 +56,17 @@ const Info = ({ info }: { info: ITemplate }): JSX.Element => {
   return (
     <div className="text-gray-400 text-xs flex  flex-col gap-2 items-center">
       <p>
-        <span className="text-white">Created:</span>{" "}
-        {info.created.toLocaleDateString()}
+        <span className="text-white">Created:</span> {info.created.toString()}
       </p>
       <p>
         <span className="text-white ">Author:</span>{" "}
         <Link
-          href={`/${info.autor}`}
+          href={`/${info.user![0].name!}`}
           className="text-blue-500 hover:text-opacity-40"
         >
-          {info.autor}
+          {info.user![0].name!}
         </Link>
       </p>
-
-      <ButtonBasic text={info.type} />
     </div>
   );
 };

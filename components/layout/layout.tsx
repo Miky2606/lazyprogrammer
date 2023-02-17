@@ -8,7 +8,7 @@ export interface ILayout {
 }
 
 export const Layout = ({ children }: ILayout) => {
-  const [View, setView] = useState<JSX.Element>(menu[0].view);
+  const [view, setView] = useState<JSX.Element>(menu[0].view);
   const [activeMenu, setActiveMenu] = useState<boolean>(true);
   return (
     <div className="w-screen h-screen overflow-x-hidden  bg-slate-900">
