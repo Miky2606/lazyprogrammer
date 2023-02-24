@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { menu, Menu, MenuMobile } from "../menu/menu";
-import { Section } from "../section/section";
-import { ViewContent } from "../viewcontent/view_content";
+import { Section } from "../layout/layout";
+import { menu, Menu, MenuMobile } from "../navbar/menu";
 
 export const HomeView = (): JSX.Element => {
   const [View, setView] = useState<JSX.Element>(menu[0].view);
@@ -14,5 +13,17 @@ export const HomeView = (): JSX.Element => {
         <ViewContent view={View} />
       </div>
     </Section>
+  );
+};
+
+export interface IViewContent {
+  view: JSX.Element;
+}
+
+export const ViewContent = ({ view }: IViewContent): JSX.Element => {
+  return (
+    <div className="w-full h-full text-white  flex flex-col gap-6 items-center p-2">
+      {view}
+    </div>
   );
 };

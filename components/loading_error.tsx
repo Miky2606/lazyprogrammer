@@ -23,3 +23,14 @@ export const Loading = (): JSX.Element => {
     </div>
   );
 };
+
+export const ErrorView = ({ error }: { error: string }) => {
+  return (
+    <div className="flex flex-col gap-3 text-white text-center m-auto top-1/2 fixed  w-full">
+      {error}
+      <span className="text-xs text-gray-500">
+        We stay working to fix the problem!
+      </span>
+    </div>
+  );
+};

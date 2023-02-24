@@ -1,6 +1,5 @@
-import { ObjectId } from "mongodb";
 import { ObjectType } from "typescript";
-import { IUser } from "../../interface/user_interface";
+import { IUser } from "../../db/schema/user_schema";
 
 export type template_type = "web" | "app" | "file";
 
@@ -30,6 +29,116 @@ export const template_fake: ITemplate[] = [
   {
     _id: "2",
     name: "NextJS",
+
+    type: "web",
+    star: 5,
+    downloads: 1200,
+    created: new Date(),
+    modified: new Date(),
+  },
+  {
+    _id: "3",
+    name: "Tailwind Nextjs",
+
+    type: "web",
+    star: 5,
+    downloads: 1200,
+    created: new Date(),
+    modified: new Date(),
+  },
+  {
+    _id: "3",
+    name: "Tailwind Nextjs",
+
+    type: "web",
+    star: 5,
+    downloads: 1200,
+    created: new Date(),
+    modified: new Date(),
+  },
+  {
+    _id: "3",
+    name: "Tailwind Nextjs",
+
+    type: "web",
+    star: 5,
+    downloads: 1200,
+    created: new Date(),
+    modified: new Date(),
+  },
+  {
+    _id: "3",
+    name: "Tailwind Nextjs",
+
+    type: "web",
+    star: 5,
+    downloads: 1200,
+    created: new Date(),
+    modified: new Date(),
+  },
+  {
+    _id: "3",
+    name: "Tailwind Nextjs",
+
+    type: "web",
+    star: 5,
+    downloads: 1200,
+    created: new Date(),
+    modified: new Date(),
+  },
+  {
+    _id: "3",
+    name: "Tailwind Nextjs",
+
+    type: "web",
+    star: 5,
+    downloads: 1200,
+    created: new Date(),
+    modified: new Date(),
+  },
+  {
+    _id: "3",
+    name: "Tailwind Nextjs",
+
+    type: "web",
+    star: 5,
+    downloads: 1200,
+    created: new Date(),
+    modified: new Date(),
+  },
+  {
+    _id: "3",
+    name: "Tailwind Nextjs",
+
+    type: "web",
+    star: 5,
+    downloads: 1200,
+    created: new Date(),
+    modified: new Date(),
+  },
+  {
+    _id: "3",
+    name: "Tailwind Nextjs",
+
+    type: "web",
+    star: 5,
+    downloads: 1200,
+    created: new Date(),
+    modified: new Date(),
+  },
+  {
+    _id: "3",
+    name: "Tailwind Nextjs",
+
+    type: "web",
+    star: 5,
+    downloads: 1200,
+    created: new Date(),
+    modified: new Date(),
+  },
+  {
+    _id: "3",
+    name: "Tailwind Nextjs",
 
     type: "web",
     star: 5,

@@ -1,14 +1,10 @@
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import { uuid } from "uuidv4";
-
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import { createFolder } from "../../../controller/controller_fs";
-import { IMail, sendMail } from "../../../controller/controller_mail";
 import clientPromise from "../../../db/connect_db";
-import Templates from "../../../db/schema/templates_schema";
-import USER from "../../../db/schema/user_schema";
-import { IUser } from "../../../interface/user_interface";
+import { IUser } from "../../../db/schema/user_schema";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -24,14 +20,7 @@ export const authOptions: NextAuthOptions = {
       users.code_auth = uuid();
 
       try {
-        const mail: IMail = {
-          fromMail: "jonathanjgn99@gmail.com",
-          toMail: user.email!,
-          subject: "Logged",
-          message: "Welcome",
-        };
         createFolder(user.name!);
-        // sendMail(mail);
       } catch (error) {
         console.log(error);
       }

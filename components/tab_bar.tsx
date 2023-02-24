@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { IButton } from "./buttons";
-import { UploadInput } from "./inputs/inputs";
-import { TemplatesList } from "./templates/template";
-import { IViewContent } from "./viewcontent/view_content";
+import { IViewContent } from "./home/home";
 
 export interface ITab extends IViewContent {
   text: string;
@@ -12,19 +10,6 @@ export interface ITab extends IViewContent {
 interface IItemsNav extends IButton {
   className?: string;
 }
-
-export const fake_tab: ITab[] = [
-  {
-    id: 1,
-    text: "Templates",
-    view: <TemplatesList />,
-  },
-  {
-    id: 2,
-    text: "Upload",
-    view: <UploadInput />,
-  },
-];
 
 export const TabBar = ({ items }: { items: ITab[] }): JSX.Element => {
   const [view_tab_content, setViewTabContent] = useState<JSX.Element>(

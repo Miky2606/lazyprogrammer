@@ -9,7 +9,18 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        move: "move_text 3s ease-in infinite",
+      },
+      keyframes: {
+        move_text: {
+          to: {
+            "background-position": "200% center",
+          },
+        },
+      },
+    },
   },
   plugins: [],
 };

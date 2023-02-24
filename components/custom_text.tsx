@@ -7,10 +7,10 @@ interface ICustomText {
 export const CustomText = ({ text, id, className }: ICustomText) => {
   return (
     <div
-      className={`${className} bg-clip-text bg-gradient-to-r from-red-500 to-pink-500`}
+      className={`${className} bg-clip-text bg-[length:200%_auto] bg-gradient-to-r from-pink-500 to-green-700 animate-move`}
       id={id}
     >
-      <h2 className="text-4xl text-transparent font-extrabold capitalize">
+      <h2 className="text-4xl text-transparent font-extrabold capitalize ">
         {text}
       </h2>
     </div>

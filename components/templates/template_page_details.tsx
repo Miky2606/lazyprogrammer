@@ -1,38 +1,46 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import {
-  AiOutlineStar,
-  AiFillStar,
-  AiOutlineCloudDownload,
-} from "react-icons/ai";
+import { AiOutlineCloudDownload } from "react-icons/ai";
+import { BsFillTrashFill } from "react-icons/bs";
 import { Code } from "../code";
 import { CustomText } from "../custom_text";
 import { NotFound } from "../not_found/not_found";
-import { ITemplate, template_fake } from "./interface";
+import { ITemplate } from "./interface";
 import { Readme } from "../readme";
 import Link from "next/link";
-import { ButtonBasic } from "../buttons";
-import axios from "axios";
+import { deleteTemplate, getTemplateInfo } from "../../util/template_util";
+import { ErrorView, Loading } from "../loading_error";
+import { useSession } from "next-auth/react";
+
+import { ModalCustom } from "../modal";
+import { IUser } from "../../db/schema/user_schema";
+import { toast } from "react-toastify";
 
 export const TemplatesDetails = (): JSX.Element => {
   const router = useRouter();
   const { id } = router.query;
   const [template, setTemplate] = useState<ITemplate | undefined>();
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const getTemplate = async () => {
-    const response = await axios.get<{ data: ITemplate[] }>(
-      `${process.env.API_URL}/${id}`
-    );
+  const get = async () => {
+    if (!id) return;
 
-    if (!response) return setTemplate(undefined);
+    const response = await getTemplateInfo<ITemplate[]>(id as string);
 
-    return setTemplate(response.data.data[0]);
+    response.error !== undefined
+      ? setError(response.error)
+      : setTemplate(response.data![0] as ITemplate);
+
+    setLoading(false);
   };
 
   useEffect(() => {
-    getTemplate();
-  }, []);
+    get();
+  }, [id]);
 
+  if (loading) return <Loading />;
+  if (error !== undefined) return <ErrorView error={error} />;
   if (template === undefined)
     return (
       <div className="text-white">
@@ -41,12 +49,12 @@ export const TemplatesDetails = (): JSX.Element => {
     );
 
   return (
-    <div className="w-full flex flex-col gap-3 justify-center items-center text-white mt-10 p-2">
+    <div className=" w-full h-full flex flex-col gap-3  items-center text-white mt-10 p-2">
       <CustomText text={template!.name} />
       <Code text={`temp ${template?.name as string}`} />
       <Info info={template!} />
       <SubInfo info={template!} />
-
+      <Code text={`tempjs -d ${template.name}`} />
       <Readme />
     </div>
   );
@@ -72,23 +80,40 @@ const Info = ({ info }: { info: ITemplate }): JSX.Element => {
 };
 
 const SubInfo = ({ info }: { info: ITemplate }): JSX.Element => {
-  const [star, setStar] = useState<boolean>(false);
+  const { data: session } = useSession();
+  const router = useRouter();
+  const user = session as IUser;
+  const [modal, setModal] = useState<boolean>(false);
   return (
     <div className="flex justify-center items-center gap-4 w-1/4 text-md mt-2">
-      <div className="text-gray-400 flex items-center gap-1 ">
-        <div onClick={() => setStar(!star)}>
-          {star ? (
-            <AiFillStar className="cursor-pointer text-yellow-400" />
-          ) : (
-            <AiOutlineStar className="cursor-pointer text-yellow-400" />
-          )}
-        </div>{" "}
-        {info?.star}
-      </div>
+      {modal ? (
+        <ModalCustom
+          text={`Are you sure you want delete`}
+          name={info.name}
+          deleteFunc={async () => {
+            const response = await deleteTemplate(info._id as string);
+            if (response.error !== undefined)
+              return toast.error(response.error);
+            return router.replace("/");
+          }}
+          setModal={setModal}
+        />
+      ) : null}
       <div className="text-green-600 flex items-center gap-1">
         <AiOutlineCloudDownload />
-        {info?.star}
+        {info?.downloads}
       </div>
+
+      {info.user![0].name === user.name ? (
+        <div
+          className="text-red-600 flex items-center gap-1 cursor-pointer"
+          onClick={async () => {
+            setModal(true);
+          }}
+        >
+          <BsFillTrashFill />
+        </div>
+      ) : null}
     </div>
   );
 };

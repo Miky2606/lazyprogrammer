@@ -1,18 +1,28 @@
 import { ObjectId } from "mongodb";
+import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
+import { connect_db } from "../../db/connect_db";
 import TemplatesSchema from "../../db/schema/templates_schema";
-import { bodyMethods, IMethods } from "../../interface/api_interface";
+import {
+  badRequest,
+  bodyMethods,
+  IMethods,
+  InternalServerError,
+} from "../../interface/api_interface";
 
-export default async function (req: NextApiRequest, res: NextApiResponse) {
-  const { id } = req.query;
-
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  await connect_db();
   const methods: IMethods = {
     GET: async () => {
+      const { id } = req.query;
+
       try {
+        if (!id) return badRequest(res, "Id is required");
+
         const find_template = await TemplatesSchema.aggregate([
           {
             $match: {
-              _id: new ObjectId(id as string),
+              name: id,
             },
           },
           {
@@ -26,14 +36,13 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         ]);
 
         if (find_template.length === 0)
-          return res.status(201).json({ data: "User doesnt have template!" });
-
+          return badRequest(res, "Template doesn't exist!");
         return res.status(200).json({ data: find_template });
       } catch (error) {
-        res.status(201).json({ data: error });
+        return InternalServerError(res, error as string);
       }
     },
   };
 
-  bodyMethods(req, res, methods);
-}
+  return bodyMethods(req, res, methods);
+};

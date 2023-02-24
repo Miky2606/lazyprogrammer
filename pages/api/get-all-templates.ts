@@ -1,8 +1,16 @@
+import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
+import { connect_db } from "../../db/connect_db";
 import TemplatesSchema from "../../db/schema/templates_schema";
-import { bodyMethods, IMethods } from "../../interface/api_interface";
+import {
+  badRequest,
+  bodyMethods,
+  IMethods,
+  InternalServerError,
+} from "../../interface/api_interface";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
+  connect_db();
   const methods: IMethods = {
     GET: async () => {
       try {
@@ -18,11 +26,13 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         ]);
 
         if (find_template.length === 0)
-          return res.status(201).json({ data: "User doesnt have template!" });
+          return badRequest(res, "Template not exist!");
 
         return res.status(200).json({ data: find_template });
       } catch (error) {
-        res.status(201).json({ data: error });
+        if (error instanceof mongoose.Error)
+          return InternalServerError(res, error.message);
+        return InternalServerError(res, error as string);
       }
     },
   };
