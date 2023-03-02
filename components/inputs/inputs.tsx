@@ -11,7 +11,7 @@ import { BsSearch, BsUnlockFill } from "react-icons/bs";
 import { IconType } from "react-icons/lib";
 import { Code } from "../code";
 import { BsLockFill } from "react-icons/bs";
-import { ITemplate } from "../templates/interface";
+import { ITemplate } from "../../interface/interface";
 import { NotFound } from "../not_found/not_found";
 import Link from "next/link";
 import { AiFillStar } from "react-icons/ai";
@@ -76,16 +76,16 @@ export const InputSearch = ({
         ) : null}
         {filteredUsers?.slice(0, add).map((e) => (
           <Link
-            href={`/templates/${e._id as string}`}
+            href={`/templates/${e.name as string}`}
             className="flex flex-col shadow-stone-400  lg:h-full  overflow-hidden w-full lg:w-[40%]   border-[0.5px] rounded  border-gray-400 opacity-40 hover:opacity-100 hover:scale-105 cursor-pointer transition-all ease-in-out duration-500 text-white"
             key={e._id as string}
           >
             <div className=" p-2 flex justify-between gap-3 w-full  ">
               <h2>{e.name}</h2>
 
-              {/* <p className="flex gap-1 items-center justify-center">
-                {e.user?[0]}
-              </p> */}
+              <p className="flex gap-1 items-center justify-center">
+                {e.user ? e.user![0].name : ""}
+              </p>
             </div>
           </Link>
         ))}

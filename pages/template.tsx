@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import { CustomText } from "../components/custom_text";
 import { InputSearch } from "../components/inputs/inputs";
 import { Loading, ErrorView } from "../components/loading_error";
-import { ITemplate } from "../components/templates/interface";
+import { ITemplate } from "../interface/interface";
 import { ResponseServer } from "../interface/api_interface";
 import { getAllTemplates } from "../util/template_util";
+import Head from "next/head";
 
 export default function (props: ResponseServer<ITemplate[]>): JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
@@ -19,6 +20,13 @@ export default function (props: ResponseServer<ITemplate[]>): JSX.Element {
 
   return (
     <div className="flex flex-col gap-3 items-center text-center w-1/2  lg:w-3/5">
+      <Head>
+        <title>Templates | LazyTemplates</title>
+        <meta name="description" content="Template   by Lazytemps" />
+        <meta property="og:title" content="Templates | LazyTemps" />
+        <meta property="og:url" content="" />
+        <meta property="og:description" content="Template   by Lazytemps" />
+      </Head>
       <CustomText text={"Templates"} />
       <InputSearch template={props?.user_data as ITemplate[]} />
     </div>

@@ -12,6 +12,7 @@ import { GetServerSidePropsContext } from "next";
 import dynamic from "next/dynamic";
 import { Code } from "../../components/code";
 import { ResponseServer } from "../../interface/api_interface";
+import Head from "next/head";
 
 const DynamicImage = dynamic(() =>
   import("../../components/profile/profile").then((get) => get.ImageView)
@@ -41,6 +42,20 @@ export default function (props: ResponseServer<IUser>) {
   return (
     <Section className="w-full  mt-2 text-white flex justify-center items-center flex-col gap-3">
       <div className="w-1/2  mt-5 flex justify-center items-center  flex-col gap-5 ">
+        <Head>
+          <title>{props.user_data?.name}</title>
+          <link rel="icon" href={`${props.user_data?.image}`} />
+          <meta
+            name="description"
+            content={`Template created by ${props.user_data?.name} `}
+          />
+          <meta property="og:title" content={props.user_data?.name} />
+          <meta
+            property="og:url"
+            content={`Template created by ${props.user_data?.name} `}
+          />
+          <meta property="og:description" content="" />
+        </Head>
         <DynamicImage
           image={props.user_data?.image!}
           user={props.user_data?.name}

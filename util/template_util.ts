@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { ITemplate } from "../components/templates/interface";
+import { ITemplate } from "../interface/interface";
 import { ResponseApi } from "../interface/api_interface";
 
 export const getAllTemplates = async <T>(): Promise<ResponseApi<T>> => {

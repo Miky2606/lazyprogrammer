@@ -2,7 +2,7 @@ import { model, models, Schema } from "mongoose";
 
 import { Session } from "next-auth";
 import { ObjectType } from "typescript";
-import { ITemplate } from "../../components/templates/interface";
+import { ITemplate } from "../../interface/interface";
 
 export interface IUser extends Session {
   id?: ObjectType | string;

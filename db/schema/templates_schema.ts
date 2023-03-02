@@ -1,5 +1,5 @@
 import mongoose, { model, models, Schema, SchemaType } from "mongoose";
-import { ITemplate } from "../../components/templates/interface";
+import { ITemplate } from "../../interface/interface";
 
 const templates = new Schema<ITemplate>({
   name: { required: true, type: String, unique: true },

@@ -7,19 +7,21 @@ import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { CustomText } from "./custom_text";
 
-export const Readme = (): JSX.Element => {
+export const Readme = ({ url }: { url: string }): JSX.Element => {
   const [readme, setReadme] = useState<string>("");
+
   const getMarkdown = () => {
-    return fetch(
-      "https://raw.githubusercontent.com/oren/node-website-template/master/readme.md"
-    )
+    return fetch(url)
       .then((res) => res.text())
-      .then((text) => setReadme(text));
+      .then((text) => setReadme(text))
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
     getMarkdown();
   }, []);
+
+  if (readme === "") return <div>No readme</div>;
 
   return (
     <ReactMarkdown

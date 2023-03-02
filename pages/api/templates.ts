@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
-import { ITemplate } from "../../components/templates/interface";
+import { ITemplate } from "../../interface/interface";
 import { connect_db } from "../../db/connect_db";
 import TemplatesSchema from "../../db/schema/templates_schema";
 import USER from "../../db/schema/user_schema";
@@ -70,7 +70,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const new_template = new TemplatesSchema(template);
         new_template.save();
 
-        return res.status(200).json({ data: find_user });
+        return res
+          .status(200)
+          .json({ data: { user: find_user, id: new_template.id } });
       } catch (error) {
         return InternalServerError(res, error as string);
       }
@@ -78,6 +80,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     PUT: async () => {
       const { id } = req.body;
+
       try {
         if (!id) return badRequest(res, "Id not exist!");
         const find_template = await TemplatesSchema.findByIdAndUpdate(id, {
@@ -97,8 +100,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         if (!id) return badRequest(res, "Id doesnt exist!");
         const find_template = await TemplatesSchema.findByIdAndDelete(id);
-
+        console.log(find_template, id);
         if (find_template) return res.status(200).json({ data: "Deleted!" });
+        return badRequest(res, "Template doesnt exist!");
       } catch (error) {
         return InternalServerError(res, error as string);
       }
