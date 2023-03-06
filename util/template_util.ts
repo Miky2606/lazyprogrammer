@@ -10,9 +10,12 @@ export const getAllTemplates = async <T>(): Promise<ResponseApi<T>> => {
     return response_get(response);
   } catch (error) {
     if (error instanceof AxiosError) {
-      return {
-        error: error.message,
-      };
+      if (error.response?.status === 400) {
+        return {
+          error: error.response?.data.error,
+          msg: error.request.status,
+        };
+      }
     }
 
     return {

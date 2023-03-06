@@ -7,6 +7,11 @@ import { ITemplate } from "../interface/interface";
 import { ResponseServer } from "../interface/api_interface";
 import { getAllTemplates } from "../util/template_util";
 import Head from "next/head";
+import dynamic from "next/dynamic";
+
+const DynamicError = dynamic(() =>
+  import("../components/loading_error").then((get) => get.ErrorView)
+);
 
 export default function (props: ResponseServer<ITemplate[]>): JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
@@ -16,7 +21,10 @@ export default function (props: ResponseServer<ITemplate[]>): JSX.Element {
   }, [loading]);
 
   if (loading) return <Loading />;
-  if (props?.error !== undefined) return <ErrorView error={props.error} />;
+  if (props?.error !== undefined)
+    return (
+      <DynamicError error={props.error} text="We are waiting for templates" />
+    );
 
   return (
     <div className="flex flex-col gap-3 items-center text-center w-1/2  lg:w-3/5">

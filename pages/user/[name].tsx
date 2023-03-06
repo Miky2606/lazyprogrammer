@@ -17,8 +17,8 @@ import Head from "next/head";
 const DynamicImage = dynamic(() =>
   import("../../components/profile/profile").then((get) => get.ImageView)
 );
-const DynamicUser = dynamic(() =>
-  import("../../components/profile/profile").then((get) => get.UserNotFound)
+const DynamicError = dynamic(() =>
+  import("../../components/loading_error").then((get) => get.ErrorView)
 );
 const DynamicInfo = dynamic(() =>
   import("../../components/profile/profile").then((get) => get.InfoProfile)
@@ -37,7 +37,8 @@ export default function (props: ResponseServer<IUser>) {
   }, [loading]);
 
   if (!router.isReady && props.loading) return <Loading />;
-  if (props.error !== undefined) return <DynamicUser data={props.error} />;
+  if (props.error !== undefined)
+    return <DynamicError error={props.error} text="Can you check the link?" />;
 
   return (
     <Section className="w-full  mt-2 text-white flex justify-center items-center flex-col gap-3">

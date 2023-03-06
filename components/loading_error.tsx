@@ -1,3 +1,6 @@
+import { GiThink } from "react-icons/gi";
+import { CustomText } from "./custom_text";
+
 export const Loading = (): JSX.Element => {
   return (
     <div className="text-center h-96 p-5">
@@ -24,13 +27,16 @@ export const Loading = (): JSX.Element => {
   );
 };
 
-export const ErrorView = ({ error }: { error: string }) => {
+export const ErrorView = ({ error, text }: { error: string; text: string }) => {
   return (
-    <div className="flex flex-col gap-3 text-white text-center m-auto top-1/2 fixed  w-full">
-      {error}
-      <span className="text-xs text-gray-500">
-        We stay working to fix the problem!
-      </span>
+    <div className="flex flex-col gap-3 text-white text-center m-auto top-1/3 fixed  w-full">
+      <div className="w-full h-3/5 flex flex-col justify-center items-center text-white p-2  gap-5">
+        <CustomText text={error} />
+
+        <GiThink className="text-white text-7xl" />
+
+        <span className="text-xs text-gray-600">{text}</span>
+      </div>
     </div>
   );
 };

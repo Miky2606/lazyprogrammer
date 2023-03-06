@@ -26,7 +26,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         ]);
 
         if (find_template.length === 0)
-          return badRequest(res, "Template not exist!");
+          return badRequest(res, "No Tenmplates created!");
 
         return res.status(200).json({ data: find_template });
       } catch (error) {

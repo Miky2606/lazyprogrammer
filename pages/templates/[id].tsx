@@ -6,7 +6,6 @@ import { useState } from "react";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
 import { toast } from "react-toastify";
-
 import { Code } from "../../components/code";
 import { CustomText } from "../../components/custom_text";
 import { Loading, ErrorView } from "../../components/loading_error";
@@ -14,11 +13,15 @@ import { ModalCustom } from "../../components/modal";
 import { NotFound } from "../../components/not_found/not_found";
 import { Readme } from "../../components/readme";
 import { ITemplate } from "../../interface/interface";
-
 import { IUser } from "../../db/schema/user_schema";
 import { ResponseServer } from "../../interface/api_interface";
 import { deleteTemplate, getTemplateInfo } from "../../util/template_util";
 import Head from "next/head";
+import dynamic from "next/dynamic";
+
+const DynamicError = dynamic(() =>
+  import("../../components/loading_error").then((get) => get.ErrorView)
+);
 
 export default function Templates(
   props: ResponseServer<ITemplate>
@@ -28,7 +31,8 @@ export default function Templates(
   }/${props.user_data?.name}/readme.md`;
 
   if (props.loading) return <Loading />;
-  if (props.error !== undefined) return <ErrorView error={props.error} />;
+  if (props.error !== undefined)
+    return <DynamicError error={props.error} text="Can you check the link?" />;
   if (props.user_data === undefined)
     return (
       <div className="text-white">
