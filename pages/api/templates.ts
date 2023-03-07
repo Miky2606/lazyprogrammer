@@ -10,9 +10,10 @@ import {
   IMethods,
   InternalServerError,
 } from "../../interface/api_interface";
+import { empty } from "uuidv4";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { code_auth, name } = req.body;
+  const { code_auth, name, description } = req.body;
 
   await connect_db();
   const methods: IMethods = {
@@ -60,8 +61,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const template: ITemplate = {
           name: name,
           autor: find_user._id,
-          type: "web",
-          star: 0,
+          description: description.length === 0 ? "" : description,
           downloads: 0,
           created: new Date(),
           modified: new Date(),

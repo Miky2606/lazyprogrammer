@@ -26,9 +26,9 @@ const DynamicError = dynamic(() =>
 export default function Templates(
   props: ResponseServer<ITemplate>
 ): JSX.Element {
-  const url = `C:/Users/Jonathan/Desktop/tempjs/user/${
-    props.user_data?.user![0].name
-  }/${props.user_data?.name}/readme.md`;
+  const url = `${process.env.API_AWS}${props.user_data?.user![0].name}/${
+    props.user_data?.name
+  }/README.md`;
 
   if (props.loading) return <Loading />;
   if (props.error !== undefined)
@@ -43,18 +43,13 @@ export default function Templates(
   return (
     <div className=" w-full h-full flex flex-col gap-3  items-center text-white mt-10 p-2">
       <Head>
-        <title>
-          {props.user_data.name} | {props.user_data!.user![0].name}
-        </title>
-        <meta
-          name="description"
-          content={`Template  ${props.user_data.name} by Lazytemps created by ${
-            props.user_data!.user![0].name
-          } `}
-        />
+        <title>{props.user_data.name ?? "Loading"}</title>
+        <meta name="description" content={props.user_data.description} />
         <meta
           property="og:title"
-          content={`  {props.user_data.name} | {props.user_data!.user![0].name}`}
+          content={`  ${props.user_data.name} | ${
+            props.user_data!.user![0].name
+          }`}
         />
         <meta
           property="og:url"
@@ -68,6 +63,13 @@ export default function Templates(
       <Info info={props.user_data ?? []} />
       <SubInfo info={props.user_data!} />
       <Code text={`tempjs -d ${props.user_data?.name}`} />
+
+      {props.user_data.description !== undefined ? (
+        <p className="h-full w-full md:w-64 p-3 text-center">
+          {props.user_data.description}
+        </p>
+      ) : null}
+
       <Readme url={url} />
     </div>
   );

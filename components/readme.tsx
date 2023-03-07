@@ -1,3 +1,4 @@
+import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
@@ -5,14 +6,14 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
-import { CustomText } from "./custom_text";
 
 export const Readme = ({ url }: { url: string }): JSX.Element => {
   const [readme, setReadme] = useState<string>("");
 
   const getMarkdown = () => {
-    return fetch(url)
-      .then((res) => res.text())
+    return axios
+      .get(url)
+      .then((res) => res.data)
       .then((text) => setReadme(text))
       .catch((err) => console.log(err));
   };
@@ -45,23 +46,27 @@ export const Readme = ({ url }: { url: string }): JSX.Element => {
         },
         h1: (props) => {
           return (
-            <CustomText text={props.children as string} className="text-2xl" />
+            <h1 className="text-3xl text-green-500 font-extrabold">
+              {props.children}
+            </h1>
           );
         },
         h2: (props) => {
           return (
-            <CustomText
-              text={props.children as string}
+            <h2
+              className="text-2xl text-gray-700 font-bold"
               id={props.children
                 .toLocaleString()
                 .toLowerCase()
                 .split(" ")
                 .join("-")}
-            />
+            >
+              -{props.children}
+            </h2>
           );
         },
       }}
-      className="w-full lg:w-1/2 flex flex-col  mb-2 p-6 gap-3 border-[0.5px] border-slate-500  rounded   text-white  "
+      className="w-full lg:w-1/2 flex flex-col  mb-2 p-6 gap-3 border-[0.2px] border-slate-500  rounded   text-white   "
     />
   );
 };

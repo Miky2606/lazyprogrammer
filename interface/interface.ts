@@ -7,8 +7,7 @@ export interface ITemplate {
   _id?: ObjectType | string;
   name: string;
   autor?: ObjectType;
-  type: template_type;
-  star: number;
+  description: string;
   downloads: number;
   created: Date;
   modified: Date;
