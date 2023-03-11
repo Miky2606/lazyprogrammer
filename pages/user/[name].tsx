@@ -24,7 +24,7 @@ const DynamicInfo = dynamic(() =>
   import("../../components/profile/profile").then((get) => get.InfoProfile)
 );
 
-export default function (props: ResponseServer<IUser>) {
+export default function Users(props: ResponseServer<IUser>) {
   const router = useRouter();
   const { name } = router.query;
   const { data: session } = useSession();

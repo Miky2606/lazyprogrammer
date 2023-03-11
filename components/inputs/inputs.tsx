@@ -1,20 +1,14 @@
 import {
   ChangeEvent,
-  ChangeEventHandler,
-  forwardRef,
   HTMLInputTypeAttribute,
   LegacyRef,
   useMemo,
   useState,
 } from "react";
-import { BsSearch, BsUnlockFill } from "react-icons/bs";
+import { BsSearch } from "react-icons/bs";
 import { IconType } from "react-icons/lib";
-import { Code } from "../code";
-import { BsLockFill } from "react-icons/bs";
 import { ITemplate } from "../../interface/interface";
-import { NotFound } from "../not_found/not_found";
 import Link from "next/link";
-import { AiFillStar } from "react-icons/ai";
 import { ButtonBasic } from "../buttons";
 
 export interface ICustomsInput {
@@ -34,9 +28,10 @@ export const InputSearch = ({
 }): JSX.Element => {
   const [add, setAdd] = useState<number>(10);
   const [search, setSearch] = useState<string>("");
+
   const filteredUsers = useMemo(
     () =>
-      template?.filter((e) => {
+      template!.filter((e) => {
         return e.name.toLowerCase().includes(search.toLowerCase());
       }),
     [search]

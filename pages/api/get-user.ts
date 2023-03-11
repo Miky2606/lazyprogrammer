@@ -9,7 +9,7 @@ import {
   InternalServerError,
 } from "../../interface/api_interface";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function UsersApi(req: NextApiRequest, res: NextApiResponse){
   await connect_db();
   const { name } = req.headers;
 

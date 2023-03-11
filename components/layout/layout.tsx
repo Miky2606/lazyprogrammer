@@ -25,7 +25,7 @@ export const Layout = ({ children }: ILayout) => {
     if (activeMenu) {
       setActiveMenu(!activeMenu);
     }
-  }, [router.asPath]);
+  }, [name]);
   return (
     <div className="w-screen h-screen overflow-x-hidden  bg-slate-900">
       <Head>

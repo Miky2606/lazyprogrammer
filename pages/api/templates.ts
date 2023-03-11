@@ -12,7 +12,7 @@ import {
 } from "../../interface/api_interface";
 import { empty } from "uuidv4";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function ATemplates(req: NextApiRequest, res: NextApiResponse) {
   const { code_auth, name, description } = req.body;
 
   await connect_db();

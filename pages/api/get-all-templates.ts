@@ -9,7 +9,7 @@ import {
   InternalServerError,
 } from "../../interface/api_interface";
 
-export default async function (req: NextApiRequest, res: NextApiResponse) {
+export default async function TemplatesApi(req: NextApiRequest, res: NextApiResponse) {
   connect_db();
   const methods: IMethods = {
     GET: async () => {

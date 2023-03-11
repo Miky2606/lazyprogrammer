@@ -1,8 +1,8 @@
 import { GetServerSidePropsContext } from "next";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import { CustomText } from "../components/custom_text";
 import { InputSearch } from "../components/inputs/inputs";
-import { Loading, ErrorView } from "../components/loading_error";
+import { Loading } from "../components/loading_error";
 import { ITemplate } from "../interface/interface";
 import { ResponseServer } from "../interface/api_interface";
 import { getAllTemplates } from "../util/template_util";
@@ -13,12 +13,14 @@ const DynamicError = dynamic(() =>
   import("../components/loading_error").then((get) => get.ErrorView)
 );
 
-export default function (props: ResponseServer<ITemplate[]>): JSX.Element {
+export default function Template(
+  props: ResponseServer<ITemplate[]>
+): JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     setLoading(props?.loading ?? false);
-  }, [loading]);
+  }, []);
 
   if (loading) return <Loading />;
   if (props?.error !== undefined)

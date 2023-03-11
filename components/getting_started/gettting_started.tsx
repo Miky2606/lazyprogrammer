@@ -30,11 +30,11 @@ export const GettingStarted = (): JSX.Element => {
         </p>
         <p>
           {" "}
-          This can be used when you init project and you don't want write all
-          the code for the initialization. Code like your reset css ,tailwind
-          config, or database connect, you can upload and when you need use you
-          don't need write the code again only download from your Lazytemp's
-          profile or other users profile and save time.
+          This can be used when you init project and you don&apos;t want write
+          all the code for the initialization. Code like your reset css
+          ,tailwind config, or database connect, you can upload and when you
+          need use you don&apos;t need write the code again only download from
+          your Lazytemp&apos;s profile or other users profile and save time.
         </p>
 
         <p className="">

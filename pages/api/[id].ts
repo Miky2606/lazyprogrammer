@@ -1,5 +1,4 @@
-import { ObjectId } from "mongodb";
-import mongoose from "mongoose";
+
 import { NextApiRequest, NextApiResponse } from "next";
 import { connect_db } from "../../db/connect_db";
 import TemplatesSchema from "../../db/schema/templates_schema";
@@ -10,7 +9,7 @@ import {
   InternalServerError,
 } from "../../interface/api_interface";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function Ids(req: NextApiRequest, res: NextApiResponse){
   await connect_db();
   const methods: IMethods = {
     GET: async () => {
