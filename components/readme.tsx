@@ -26,6 +26,7 @@ export const Readme = ({ url }: { url: string }): JSX.Element => {
 
   return (
     <ReactMarkdown
+      // eslint-disable-next-line
       children={readme}
       rehypePlugins={[rehypeRaw]}
       remarkPlugins={[remarkGfm]}
