@@ -41,14 +41,15 @@ export const Readme = ({ url }: { url: string }): JSX.Element => {
               className="text-blue-400"
             >
               {props.children}
-            </Link> // Render Twitter links // All other links
+            </Link>
           );
         },
         h1: (props) => {
           return (
-            <h1 className="text-3xl text-green-500 font-extrabold">
-              {props.children}
-            </h1>
+            <h1
+              className="text-3xl text-green-500 font-extrabold"
+              children={[props.children]}
+            />
           );
         },
         h2: (props) => {
@@ -60,9 +61,8 @@ export const Readme = ({ url }: { url: string }): JSX.Element => {
                 .toLowerCase()
                 .split(" ")
                 .join("-")}
-            >
-              -{props.children}
-            </h2>
+              children={[props.children]}
+            />
           );
         },
       }}
