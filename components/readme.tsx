@@ -45,25 +45,10 @@ export const Readme = ({ url }: { url: string }): JSX.Element => {
           );
         },
         h1: (props) => {
-          return (
-            <h1
-              className="text-3xl text-green-500 font-extrabold"
-              children={[props.children]}
-            />
-          );
+          return <ReamdeH1 text={props.children as string} />;
         },
         h2: (props) => {
-          return (
-            <h2
-              className="text-2xl text-gray-700 font-bold"
-              id={props.children
-                .toLocaleString()
-                .toLowerCase()
-                .split(" ")
-                .join("-")}
-              children={[props.children]}
-            />
-          );
+          return <ReamdeH2 text={props.children as string} />;
         },
       }}
       className="w-full lg:w-1/2 flex flex-col  mb-2 p-6 gap-3 border-[0.2px] border-slate-500  rounded   text-white   "
@@ -76,5 +61,20 @@ const Component = ({ children }: any) => {
     <SyntaxHighlighter language="javascript" style={dracula}>
       {children ?? ""}
     </SyntaxHighlighter>
+  );
+};
+
+const ReamdeH1 = ({ text }: { text: string }) => {
+  return <h1 className="text-3xl text-green-500 font-extrabold">{text}</h1>;
+};
+
+const ReamdeH2 = ({ text }: { text: string }) => {
+  return (
+    <h2
+      className="text-2xl text-gray-700 font-bold"
+      id={text.toLocaleString().toLowerCase().split(" ").join("-")}
+    >
+      {text}
+    </h2>
   );
 };
