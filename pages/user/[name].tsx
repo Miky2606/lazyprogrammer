@@ -29,7 +29,6 @@ export default function Users(props: ResponseServer<IUser>) {
   const { name } = router.query;
   const { data: session } = useSession();
   const user = session as IUser;
-
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {

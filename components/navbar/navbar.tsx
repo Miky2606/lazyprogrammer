@@ -31,21 +31,21 @@ export const Navbar = (): JSX.Element => {
           {session ? (
             <>
               <li
-                className="bg-slate-700 px-2 py-1 text-center rounded-full text-white text-sm  lg:text-xs capitalize cursor-pointer"
+                className="bg-slate-700 px-2 py-1 text-center rounded-full text-white text-sm  lg:text-xs capitalize cursor-pointer hover:bg-white hover:text-black  transition-all duration-300 ease-out"
                 key={"account"}
               >
                 <Link href={`/user/${user!.name}`}>{user.name}</Link>
               </li>
 
               <li
-                className="bg-slate-700 px-2 py-1 text-center rounded-full text-white text-sm  lg:text-xs capitalize cursor-pointer"
+                className="bg-slate-700 px-2 py-1 text-center rounded-full text-white text-sm  lg:text-xs capitalize cursor-pointer hover:bg-white hover:text-black  transition-all duration-300 ease-out"
                 key={"signout"}
               >
                 <button onClick={() => signOut()}>SignOut</button>
               </li>
             </>
           ) : (
-            <li className="bg-slate-700 px-2 py-1 text-center rounded-full text-white text-sm  lg:text-xs capitalize cursor-pointer">
+            <li className="bg-slate-700 px-2 py-1 text-center rounded-full text-white text-sm  lg:text-xs capitalize cursor-pointer hover:bg-white hover:text-black  transition-all duration-300 ease-out">
               <button onClick={() => signIn()}>SignIn</button>
             </li>
           )}

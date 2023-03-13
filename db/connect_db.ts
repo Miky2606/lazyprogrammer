@@ -5,11 +5,12 @@ export const connect_db = async () => {
     await mongoose.connect(process.env.MONGODB_URI as string);
     mongoose.set("strictQuery", true);
   } catch (error) {
-    console.log(error);
+    toast.error("Error in db");
   }
 };
 
 import { MongoClient } from "mongodb";
+import { toast } from "react-toastify";
 
 if (!process.env.MONGODB_URI) {
   throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
